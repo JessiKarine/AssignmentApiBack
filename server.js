@@ -3,6 +3,7 @@ let app = express();
 let bodyParser = require('body-parser');
 
 let assignment = require('./routes/assignments');
+let users = require('./routes/users');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -10,7 +11,7 @@ mongoose.Promise = global.Promise;
 
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
 //const uri = 'mongodb+srv://mb:P7zM3VePm0caWA1L@cluster0.zqtee.mongodb.net/assignments?retryWrites=true&w=majority';
-const uri='mongodb+srv://mb:toto@cluster0.xtr0u.mongodb.net/assignments?retryWrites=true&w=majority';
+const uri='mongodb+srv://meva98:root@cluster0.qewxf.mongodb.net/buffa?retryWrites=true&w=majority';
 
 const options = {
   useNewUrlParser: true,
@@ -54,6 +55,12 @@ app.route(prefix + '/assignments')
 app.route(prefix + '/assignments/:id')
   .get(assignment.getAssignment)
   .delete(assignment.deleteAssignment);
+
+app.route(prefix + '/login')
+  .post(users.login);
+
+app.route(prefix + '/register')
+  .post(users.register);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

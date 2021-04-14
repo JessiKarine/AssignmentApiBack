@@ -39,27 +39,20 @@ function getAssignments(req, res) {
 }
 
 // Récupérer un assignment par son id (GET)
+/* 
+  populate : 
+    premier parametre : nom du colonne a remplacer par l'objet
+    reste du paramter : choix des attribut de l'objet a afficher
+*/
 function getAssignment(req, res) {
   let assignmentId = req.params.id;
- /* Assignment.aggregate([{
-    $lookup : {
-      from : "matiere" , 
-      localField : "matiere",
-      foreignField : "_id",
-      as : "matiere"
-    } , 
-    $project : { 
-      "_id" : assignmentId
-    }
-  }]); */
   Assignment.findOne({ _id: assignmentId },(err , assignment) => { 
     if (err) {
       console.log(err);
       res.send(err);
     }
-    console.log("assignment");
     res.json(assignment);
-  }).populate("matiere").populate('prof');
+  }).populate("matiere").populate('prof'); // rehefa populate() : ny premier parametre = ilay column foreign ho soloina valeur , ny ambiny parametre dia ny colonne sélectionnena ao amlé valeur
 
 }
 

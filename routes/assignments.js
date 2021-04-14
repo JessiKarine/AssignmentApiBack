@@ -59,7 +59,7 @@ function getAssignment(req, res) {
     }
     console.log("assignment");
     res.json(assignment);
-  }).populate("matiere");
+  }).populate("matiere").populate('prof');
 
 }
 

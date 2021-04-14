@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
+let { Matiere }  = require('./matiere');
 
 let Schema = mongoose.Schema;
 
@@ -10,7 +11,8 @@ let AssignmentSchema = Schema({
     rendu: Boolean,
     auteur : String,
     note : Number,
-    remarques : String
+    remarques : String,
+    matiere : Matiere
 });
 
 AssignmentSchema.plugin(aggregatePaginate);

@@ -15,6 +15,5 @@ MatiereSchema.plugin(aggregatePaginate);
 
 
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
-module.exports.Matiere = MatiereSchema;
-module.exports.MatiereSchema = mongoose.model('matiere',MatiereSchema,'Matiere');
+module.exports = mongoose.model('Matiere',MatiereSchema);
 

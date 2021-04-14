@@ -1,4 +1,6 @@
 // Assignment est le "modèle mongoose", il est connecté à la base de données
+let connection = null;
+
 let Assignment = require("../model/assignment");
 
 /* Version sans pagination */
@@ -14,7 +16,9 @@ function getAssignments(req, res){
     });
 }
 */
-
+function setConnection(connect) { 
+  connection = connect;
+}
 // Récupérer tous les assignments (GET), AVEC PAGINATION
 function getAssignments(req, res) {
   var aggregateQuery = Assignment.aggregate();
@@ -37,13 +41,26 @@ function getAssignments(req, res) {
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res) {
   let assignmentId = req.params.id;
-
-  Assignment.findOne({ id: assignmentId }, (err, assignment) => {
+ /* Assignment.aggregate([{
+    $lookup : {
+      from : "matiere" , 
+      localField : "matiere",
+      foreignField : "_id",
+      as : "matiere"
+    } , 
+    $project : { 
+      "_id" : assignmentId
+    }
+  }]); */
+  Assignment.findOne({ _id: assignmentId },(err , assignment) => { 
     if (err) {
+      console.log(err);
       res.send(err);
     }
+    console.log("assignment");
     res.json(assignment);
-  });
+  }).populate("matiere");
+
 }
 
 // Ajout d'un assignment (POST)
@@ -97,6 +114,7 @@ function deleteAssignment(req, res) {
 }
 
 module.exports = {
+  setConnection,
   getAssignments,
   postAssignment,
   getAssignment,

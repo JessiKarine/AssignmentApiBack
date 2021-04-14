@@ -1,18 +1,23 @@
+const { ObjectId } = require('bson');
 let mongoose = require('mongoose');
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 let { Matiere }  = require('./matiere');
+let { Prof }  = require('./prof');
+let { Eleve }  = require('./eleve');
 
 let Schema = mongoose.Schema;
 
 let AssignmentSchema = Schema({
+    _id : ObjectId,
     id: Number,
     dateDeRendu: Date,
     nom: String,
     rendu: Boolean,
-    auteur : String,
+    eleve : Eleve,
     note : Number,
     remarques : String,
-    matiere : Matiere
+    matiere : Matiere,
+    prof : Prof
 });
 
 AssignmentSchema.plugin(aggregatePaginate);

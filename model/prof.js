@@ -7,6 +7,7 @@ let Schema = mongoose.Schema;
 let ProfSchema = Schema({
     _id : ObjectId,
     nom: String,
+    prenom : String,
     image: String
     
 });
@@ -15,6 +16,5 @@ ProfSchema.plugin(aggregatePaginate);
 
 
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
-module.exports.Prof = ProfSchema;
-module.exports.ProfSchema = mongoose.model('profs',ProfSchema,'Prof');
+module.exports = mongoose.model('Prof',ProfSchema);
 

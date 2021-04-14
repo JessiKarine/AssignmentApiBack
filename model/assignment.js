@@ -2,7 +2,7 @@ const { ObjectId } = require('bson');
 let mongoose = require('mongoose');
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 let { Matiere }  = require('./matiere');
-let { Prof }  = require('./prof');
+let  Prof   = require('./prof');
 let { Eleve }  = require('./eleve');
 
 let Schema = mongoose.Schema;
@@ -17,7 +17,7 @@ let AssignmentSchema = Schema({
     note : Number,
     remarques : String,
     matiere : Matiere,
-    prof : Prof
+    prof : {type : Schema.Types.ObjectId , ref : 'prof'}
 });
 
 AssignmentSchema.plugin(aggregatePaginate);

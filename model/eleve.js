@@ -4,15 +4,14 @@ var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 let Schema = mongoose.Schema;
 
-let MatiereSchema = Schema({
+let EleveSchema = Schema({
     _id : ObjectId,
-    image: String,
     nom: String
 });
 
-MatiereSchema.plugin(aggregatePaginate);
+EleveSchema.plugin(aggregatePaginate);
 
 
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
-module.exports = mongoose.model('Matiere',MatiereSchema);
+module.exports.Eleve = EleveSchema;
 

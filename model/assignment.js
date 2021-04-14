@@ -1,19 +1,22 @@
 const { ObjectId } = require('bson');
 let mongoose = require('mongoose');
 const Matiere = require ('./matiere'); //mila importena rehefa anao reference amina objet
+const Eleve = require ('./eleve');
+const Prof = require ('./prof');
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 let Schema = mongoose.Schema;
 
 let AssignmentSchema = Schema({
-    _id: ObjectId,
+    _id : ObjectId,
     dateDeRendu: Date,
     nom: String,
     rendu: Boolean,
-    auteur : String,
+    eleve : { type : Schema.ObjectId , ref : 'Eleve'} ,
     note : Number,
     remarques : String,
-    matiere : { type : Schema.ObjectId , ref : 'Matiere'}
+    matiere : { type : Schema.ObjectId , ref : 'Matiere'},
+    prof : { type : Schema.ObjectId , ref : 'Prof'}
 });
 
 AssignmentSchema.plugin(aggregatePaginate);

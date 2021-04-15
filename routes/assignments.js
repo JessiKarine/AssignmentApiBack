@@ -21,7 +21,47 @@ function setConnection(connect) {
 }
 // Récupérer tous les assignments (GET), AVEC PAGINATION
 function getAssignments(req, res) {
-  var aggregateQuery = Assignment.aggregate();
+  var aggregateQuery = Assignment.aggregate([
+    {
+      $unwind : '$matiere' // destructurer le tableau venant des documents ,, nom du colonne
+    },
+    {
+      $lookup : {
+          from : 'matieres', // nom du table avec 's' parce que c'est généré automatiquement par le cloudATlas (mongodb)
+          localField : 'matiere',
+          foreignField : '_id' , 
+          as : 'matiere'
+      } 
+    },
+    {
+      $unwind : '$prof'
+    },
+    { 
+      $lookup : {   // manao jointure amlé collection visena
+        from : 'profs' , 
+        localField : 'prof', 
+        foreignField : '_id',
+        as : 'prof'
+      }
+    },
+    {
+      $project : { //mi filtrer colonne rehefa amoka resultat 1 ba 0 no miasa
+        "_id" : 1,
+        "dateDeRendu" : 1,
+        "nom": 1, 
+        "rendu" : 1,
+        "eleve" :1 ,
+        "note" : 1,
+        "remarques" :1 ,
+        matiere : { 
+          $arrayElemAt : ["$matiere",0],
+        },
+        prof : { 
+          $arrayElemAt : ["$prof",0]
+        }
+      }
+    }
+  ]);
   
   Assignment.aggregatePaginate(
     aggregateQuery,

@@ -46,8 +46,8 @@ function setConnection(connect) {
   }
 
   function getMatiere(req, res) {
-    let profId = req.params.id;
-    Prof.findOne({ _id: profId },(err , prof) => { 
+    let matiereId = req.params.id;
+    Matiere.findOne({ _id: matiereId },(err , prof) => { 
       if (err) {
         console.log(err);
         res.send(err);

@@ -1,4 +1,6 @@
 let Prof = require("../model/prof");
+const { mongo } = require("mongoose");
+const ObjectId = mongo.ObjectID;
 
 function getProfs(req, res) {
     var aggregateQuery = Prof.aggregate();
@@ -21,7 +23,6 @@ function getProfs(req, res) {
   // Récupérer un prof par son id (GET)
   function getProf(req, res) {
     let profId = req.params.id;
-    console.log(profId)
     Prof.findOne({ _id: profId }, (err, prof) => {
       if (err) {
         res.send(err);
@@ -30,11 +31,15 @@ function getProfs(req, res) {
     });
   }
   
-
+  async function countProf(){
+    return Prof.countDocuments((err,count)=> { 
+       return count;
+     });
+ }
   // Ajout d'un Prof (POST)
-function postProf(req, res) {
+  async function postProf(req, res) {
     let prof = new Prof();
-    prof.id = req.body.id;
+    prof._id = new ObjectId(await countProf());
     prof.nom = req.body.nom;
     prof.prenom = req.body.prenom;
     prof.image = req.body.image;
@@ -44,9 +49,12 @@ function postProf(req, res) {
   
     prof.save((err) => {
       if (err) {
-        res.send("cant post prof ", err);
+        console.log(err)
+        res.send({error : "cant post prof "});
       }
+      else{
       res.json({ message: `${prof.nom} saved!` });
+      }
     });
   }
   

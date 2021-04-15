@@ -2,6 +2,8 @@
 let connection = null;
 
 let Assignment = require("../model/assignment");
+const { mongo } = require("mongoose");
+const ObjectId = mongo.ObjectID;
 
 /* Version sans pagination */
 // Récupérer tous les assignments (GET)
@@ -96,22 +98,38 @@ function getAssignment(req, res) {
 
 }
 
+async function countAssignment(){
+  return Assignment.countDocuments((err,count)=> { 
+     return count;
+   });
+}
+
 // Ajout d'un assignment (POST)
-function postAssignment(req, res) {
+async function postAssignment(req, res) {
+  console.log("HEllo");
   let assignment = new Assignment();
+  assignment._id = new ObjectId(await countAssignment());
   assignment.id = req.body.id;
   assignment.nom = req.body.nom;
   assignment.dateDeRendu = req.body.dateDeRendu;
   assignment.rendu = req.body.rendu;
+  assignment.note = req.body.note;
+  assignment.matiere = req.body.matiere;
+  assignment.prof = req.body.prof;
+  assignment.remarques = req.body.remarques;
+  assignment.eleve = req.body.eleve;
 
   console.log("POST assignment reçu :");
   console.log(assignment);
 
   assignment.save((err) => {
     if (err) {
-      res.send("cant post assignment ", err);
+      console.log(err)
+      res.send({error : "cant post assignment "});
     }
+    else{
     res.json({ message: `${assignment.nom} saved!` });
+    }
   });
 }
 

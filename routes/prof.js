@@ -88,6 +88,8 @@ function getProfs(req, res) {
       res.json({ message: `${prof.nom} deleted` });
     });
   }
+
+  
   
   module.exports = {
     getProfs,

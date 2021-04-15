@@ -78,9 +78,12 @@ app.route(prefix + '/prof/:id')
 
 app.route(prefix + '/matiere')
   .get(matiere.getMatieres)
+  .post(matiere.postMatiere)
+  .put(matiere.updateMatiere);
 
 app.route(prefix + '/matiere/:id')
   .get(matiere.getMatiere)
+  .delete(matiere.deleteMatiere);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

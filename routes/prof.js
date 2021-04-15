@@ -21,8 +21,8 @@ function getProfs(req, res) {
   // Récupérer un prof par son id (GET)
   function getProf(req, res) {
     let profId = req.params.id;
-  
-    Prof.findOne({ id: profId }, (err, prof) => {
+    console.log(profId)
+    Prof.findOne({ _id: profId }, (err, prof) => {
       if (err) {
         res.send(err);
       }

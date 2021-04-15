@@ -70,7 +70,7 @@ app.route(prefix + '/register')
   .put(prof.updateProf);
 
 
-app.route(prefix + '/profs/:id')
+app.route(prefix + '/prof/:id')
   .get(prof.getProf)
   .delete(prof.deleteProf);
 

@@ -1,6 +1,9 @@
 let connection = null;
 
 let Matiere = require("../model/matiere");
+const prof = require("../model/prof");
+const { mongo } = require("mongoose");
+const ObjectId = mongo.ObjectID;
 
 function setConnection(connect) { 
     connection = connect;
@@ -76,12 +79,20 @@ function setConnection(connect) {
       }
     );
   }
-
-  function postMatiere(req, res) {
+  async function countMatiere(){
+    return Matiere.countDocuments((err,count)=> { 
+       return count;
+     });
+ }
+ async function postMatiere(req, res) {
+   console.log("requet : "+req.body.prof._id)
     let matiere = new Matiere();
-    matiere.id = req.body.id;
+    matiere._id = new ObjectId(await countMatiere());
     matiere.nom = req.body.nom;
-    matiere.prof._id = req.body.prof._id;
+    matiere.prof = {
+      _id :  req.body.prof._id
+    };
+   
     matiere.image = req.body.image;
   
     console.log("POST matiere reçu :");
@@ -89,9 +100,11 @@ function setConnection(connect) {
   
     matiere.save((err) => {
       if (err) {
-        res.send("cant post matiere ", err);
+        res.status(500).send({error :"cant post matiere : "});
       }
-      res.json({ message: `${matiere.nom} saved!` });
+      else { 
+        res.json({ message: `${matiere.nom} saved!` });
+      }
     });
   }
 
